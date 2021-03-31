@@ -66,16 +66,13 @@
       function calcResistor(targetResistance, series) {
         var val = targetResistance;
         var exp = 0;
-        if(val < 10) {
-          while(val < 10) {
-            val *= 10;
-            exp --;
-          }
-        }else if(val >= 100) {
-          while(val >= 100) {
-            val /= 10;
-            exp ++;
-          }
+        while(Math.round(val) < 100) {
+          val *= 10;
+          exp --;
+        }
+        while(Math.round(val) >= 100) {
+          val /= 10;
+          exp ++;
         }
         var targetArr = resistorArr[series];
         var min_index = -1;
@@ -101,40 +98,76 @@
         return [[], [val1, val2, val3, val4]];
       }
 
+      function clearDisplay() {
+        document.getElementById("disp").innerText = "";
+        var resistorColor1 = document.getElementById("resistorColor1").children;
+        var resistorColor2 = document.getElementById("resistorColor2").children;
+        resistorColor1[0].dataset.color = "";
+        resistorColor1[1].dataset.color = "";
+        resistorColor1[2].dataset.color = "";
+        resistorColor1[3].dataset.color = "";
+        resistorColor1[4].dataset.color = "";
+        resistorColor2[0].dataset.color = "";
+        resistorColor2[1].dataset.color = "";
+        resistorColor2[2].dataset.color = "";
+        resistorColor2[3].dataset.color = "";
+      }
+
       function changeEvent() {
         var resistance = document.getElementById("resistance").value;
-        if(resistance == 0 || resistance == "" || isNaN(resistance)) {
-          document.getElementById("disp").innerText = "";
-          return
+        if(resistance == "" || isNaN(resistance) || Number(resistance) == 0) {
+          clearDisplay();
+          return;
         }
         resistance = Number(resistance);
         var exp = Number(document.getElementById("exp").value);
         var series = document.getElementById("series").value;
         var result = calcResistor(resistance * Math.pow(10, exp), series);
-        console.log(result)
-        var result_resistance = result[0];
-        if(series != "e3" && series != "e6" && series != "e12" && series != "e24") {
-          result_resistance *= 10;
+        if(Math.round(Math.pow(10, Number(resistance) + 2)) < 1) {
+          clearDisplay();
+          return;
         }
-        document.getElementById("disp").innerText = result_resistance + " x10^ " + result[1] + " Ω\ndifference: " + String(result[2]).slice(0, 5) + " %";
+        console.log(result)
+        var result_resistance = result[0] * Math.pow(10, result[1]);
+        if(result_resistance < 1) {
+          result_resistance = "0." + String(result_resistance * 1000).slice(0, 3) + " Ω";
+        }else if(result_resistance < 1000) {
+          result_resistance = result_resistance + " Ω";
+        }else if(result_resistance < 1000000) {
+          result_resistance = Number(String(result_resistance / 1000).slice(0, 5)) + " kΩ";
+        }else {
+          result_resistance = Number(String(result_resistance / 1000000).slice(0, 5)) + " MΩ";
+        }
+        document.getElementById("disp").innerText = "resistance: " + result_resistance + "\ndifference: " + String(result[2]).slice(0, 5) + " %";
         var colorVal = calcColor(result[0], result[1]);
         var resistorColor1 = document.getElementById("resistorColor1").children;
-        resistorColor1[0].dataset.color = resistorColorArr[colorVal[1][0]];
-        resistorColor1[1].dataset.color = resistorColorArr[colorVal[1][1]];
-        resistorColor1[2].dataset.color = resistorColorArr[colorVal[1][2]];
-        resistorColor1[3].dataset.color = resistorColorArr[colorVal[1][3]];
-        resistorColor1[4].dataset.color = document.getElementById("tolerance").value;
+        if(colorVal[1][3] >= -2) {
+          resistorColor1[0].dataset.color = resistorColorArr[colorVal[1][0]];
+          resistorColor1[1].dataset.color = resistorColorArr[colorVal[1][1]];
+          resistorColor1[2].dataset.color = resistorColorArr[colorVal[1][2]];
+          resistorColor1[3].dataset.color = resistorColorArr[colorVal[1][3] >= 0 ? colorVal[1][3] : Math.abs(colorVal[1][3] + 1) + 10];
+          resistorColor1[4].dataset.color = document.getElementById("tolerance").value;
+        } else {
+          resistorColor1[0].dataset.color = "";
+          resistorColor1[1].dataset.color = "";
+          resistorColor1[2].dataset.color = "";
+          resistorColor1[3].dataset.color = "";
+          resistorColor1[4].dataset.color = "";
+        }
         var resistorColor2 = document.getElementById("resistorColor2").children;
         if(colorVal[0].length != 0) {
           resistorColor2[0].dataset.color = resistorColorArr[colorVal[0][0]];
           resistorColor2[1].dataset.color = resistorColorArr[colorVal[0][1]];
-          resistorColor2[2].dataset.color = resistorColorArr[colorVal[0][2]];
+          resistorColor2[2].dataset.color = resistorColorArr[colorVal[0][2] >= 0 ? colorVal[0][2] : Math.abs(colorVal[0][2] + 1) + 10];
           resistorColor2[3].dataset.color = document.getElementById("tolerance").value;
         } else {
           resistorColor2[0].dataset.color = "";
           resistorColor2[1].dataset.color = "";
           resistorColor2[2].dataset.color = "";
           resistorColor2[3].dataset.color = "";
+        }
+        if(colorVal[0].length == 0 && colorVal[1][3] < -2){
+          clearDisplay();
         }
         console.log(colorVal);
       }
@@ -200,7 +233,7 @@
     <p>
       <div class="inline">
         <div>Resistance value</div>
-        <input type="number" id="resistance" value="1" min="0" onchange="changeEvent()" onkeydown="changeEvent()" onkeyup="changeEvent()">
+        <input type="number" id="resistance" value="1" min="0" onchange="changeEvent()" onkeydown="changeEvent()" onkeyup="changeEvent()" onkeypress="changeEvent()" onmousedown="changeEvent()">
       </div>
       <div class="inline">
         <div>Unit</div>
