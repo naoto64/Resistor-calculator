@@ -63,6 +63,8 @@
         "none"
       ];
 
+      var AnimationID;
+
       function calcResistor(targetResistance, series) {
         var val = targetResistance;
         var exp = 0;
@@ -186,10 +188,11 @@
       }
       function loop() {
         changeEvent();
-        window.requestAnimationFrame(loop);
+        AnimationID = window.requestAnimationFrame(loop);
+        console.log("ok")
       }
       window.onload = function() {
-        window.requestAnimationFrame(loop);
+        AnimationID = window.requestAnimationFrame(loop);
       }
     </script>
     <style media="screen">
@@ -305,7 +308,7 @@
         </span>
       </p>
       <p>
-        <span id="disp"></span>
+        <span id="disp" onmouseover="window.cancelAnimationFrame(AnimationID);" onmouseout="AnimationID = window.requestAnimationFrame(loop);"></span>
       </p>
     </p>
   </body>
