@@ -142,13 +142,13 @@
           return;
         }
         if(Math.round(result_resistance * 10) < 10) {
-          result_resistance = "0." + String(result_resistance * 1000).slice(0, 3) + " Ω";
+          result_resistance = Math.round(result_resistance * 10) / 10 + " Ω";
         }else if(Math.round(result_resistance) < 1000) {
-          result_resistance = result_resistance + " Ω";
+          result_resistance = Math.round(result_resistance * 10) / 10 + " Ω";
         }else if(Math.round(result_resistance) < 1000000) {
-          result_resistance = Number(String(result_resistance / 1000).slice(0, 5)) + " kΩ";
+          result_resistance = Math.round(result_resistance) / 1000 + " kΩ";
         }else if(Math.round(result_resistance) < 1000000000){
-          result_resistance = Number(String(result_resistance / 1000000).slice(0, 5)) + " MΩ";
+          result_resistance = Math.round(result_resistance / 1000) / 1000 + " MΩ";
         }else{
           inputError();
           document.getElementById("resistance").value = document.getElementById("resistance").value.slice(0, -1);
