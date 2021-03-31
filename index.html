@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript">
+      var resistorArr = {
+        e3: [10, 22, 47],
+        e6: [10, 15, 22, 33, 47, 68],
+        e12: [10, 12, 15, 18, 22, 27, 33, 39, 47, 56, 68, 82],
+        e24: [
+          10, 11, 12, 13, 15, 16, 18, 20, 22, 24, 27, 30,
+          33, 36, 39, 43, 47, 51, 56, 62, 68, 75, 82, 91
+        ],
+        e48: [
+          10.0, 10.5, 11.0, 11.5, 12.1, 12.7, 13.3, 14.0, 14.7, 15.4, 16.2, 16.9,
+          17.8, 18.7, 19.6, 20.5, 21.5, 22.6, 23.7, 24.9, 26.1, 27.4, 28.7, 30.1,
+          31.6, 33.2, 34.8, 36.5, 38.3, 40.2, 42.2, 44.2, 46.4, 48.7, 51.1, 53.6,
+          56.2, 59.0, 61.9, 64.9, 68.1, 71.5, 75.0, 78.7, 82.5, 86.6, 90.9, 95.3
+        ],
+        e96: [
+          10.0, 10.2, 10.5, 10.7, 11.0, 11.3, 11.5, 11.8, 12.1, 12.4, 12.7, 13.0,
+          13.3, 13.7, 14.0, 14.3, 14.7, 15.0, 15.4, 15.8, 16.2, 16.5, 16.9, 17.4,
+          17.8, 18.2, 18.7, 19.1, 19.6, 20.0, 20.5, 21.0, 21.5, 22.1, 22.6, 23.2,
+          23.7, 24.3, 24.9, 25.5, 26.1, 26.7, 27.4, 28.0, 28.7, 29.4, 30.1, 30.9,
+          31.6, 32.4, 33.2, 34.0, 34.8, 35.7, 36.5, 37.4, 38.3, 39.2, 40.2, 41.2,
+          42.2, 43.2, 44.2, 45.3, 46.4, 47.5, 48.7, 49.9, 51.1, 52.3, 53.6, 54.9,
+          56.2, 57.6, 59.0, 60.4, 61.9, 63.4, 64.9, 66.5, 68.1, 69.8, 71.5, 73.2,
+          75.0, 76.8, 78.7, 80.6, 82.5, 84.5, 86.6, 88.7, 90.9, 93.1, 95.3, 97.6
+        ],
+        e192: [
+          10.0, 10.1, 10.2, 10.4, 10.5, 10.6, 10.7, 10.9, 11.0, 11.1, 11.3, 11.4,
+          11.5, 11.7, 11.8, 12.0, 12.1, 12.3, 12.4, 12.6, 12.7, 12.9, 13.0, 13.2,
+          13.3, 13.5, 13.7, 13.8, 14.0, 14.2, 14.3, 14.5, 14.7, 14.9, 15.0, 15.2,
+          15.4, 15.6, 15.8, 16.0, 16.2, 16.4, 16.5, 16.7, 16.9, 17.2, 17.4, 17.6,
+          17.8, 18.0, 18.2, 18.4, 18.7, 18.9, 19.1, 19.3, 19.6, 19.8, 20.0, 20.3,
+          20.5, 20.8, 21.0, 21.3, 21.5, 21.8, 22.1, 22.3, 22.6, 22.9, 23.2, 23.4,
+          23.7, 24.0, 24.3, 24.6, 24.9, 25.2, 25.5, 25.8, 26.1, 26.4, 26.7, 27.1,
+          27.4, 27.7, 28.0, 28.4, 28.7, 29.1, 29.4, 29.8, 30.1, 30.5, 30.9, 31.2,
+          31.6, 32.0, 32.4, 32.8, 33.2, 33.6, 34.0, 34.4, 34.8, 35.2, 35.7, 36.1,
+          36.5, 37.0, 37.4, 37.9, 38.3, 38.8, 39.2, 39.7, 40.2, 40.7, 41.2, 41.7,
+          42.2, 42.7, 43.2, 43.7, 44.2, 44.8, 45.3, 45.9, 46.4, 47.0, 47.5, 48.1,
+          48.7, 49.3, 49.9, 50.5, 51.1, 51.7, 52.3, 53.0, 53.6, 54.2, 54.9, 55.6,
+          56.2, 56.9, 57.6, 58.3, 59.0, 59.7, 60.4, 61.2, 61.9, 62.6, 63.4, 64.2,
+          64.9, 65.7, 66.5, 67.3, 68.1, 69.0, 69.8, 70.6, 71.5, 72.3, 73.2, 74.1,
+          75.0, 75.9, 76.8, 77.7, 78.7, 79.6, 80.6, 81.6, 82.5, 83.5, 84.5, 85.6,
+          86.6, 87.6, 88.7, 89.8, 90.9, 92.0, 93.1, 94.2, 95.3, 96.5, 97.6, 98.8
+        ]
+      };
+      var resistorColorArr = [
+        "black",
+        "brown",
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "gray",
+        "white",
+        "gold",
+        "silver",
+        "none"
+      ];
+
+      function calcResistor(targetResistance, series) {
+        var val = targetResistance;
+        var exp = 0;
+        if(val < 10) {
+          while(val < 10) {
+            val *= 10;
+            exp --;
+          }
+        }else if(val >= 100) {
+          while(val >= 100) {
+            val /= 10;
+            exp ++;
+          }
+        }
+        var targetArr = resistorArr[series];
+        var min_index = -1;
+        var min_value = 100;
+        for(i = 0; i < targetArr.length; i++) {
+          var now_val = targetArr[i] - val;
+          if(Math.abs(now_val) < Math.abs(min_value)) {
+            min_index = i;
+            min_value = now_val;
+          }
+        }
+        return [targetArr[min_index], exp, min_value / val * 100];
+      }
+
+      function calcColor(resistance, exp) {
+        var val1 = Number(String(resistance).slice(0, 1));
+        var val2 = Number(String(resistance).slice(1, 2));
+        var val3 = Math.round((Number(resistance) % 1) * 10);
+        var val4 = exp - 1;
+        if(val3 == 0) {
+          return [[val1, val2, Number(exp)], [val1, val2, val3, val4]];
+        }
+        return [[], [val1, val2, val3, val4]];
+      }
+
+      function changeEvent() {
+        var resistance = document.getElementById("resistance").value;
+        if(resistance == 0 || resistance == "" || isNaN(resistance)) {
+          document.getElementById("disp").innerText = "";
+          return
+        }
+        resistance = Number(resistance);
+        var exp = Number(document.getElementById("exp").value);
+        var series = document.getElementById("series").value;
+        var result = calcResistor(resistance * Math.pow(10, exp), series);
+        console.log(result)
+        var result_resistance = result[0];
+        if(series != "e3" && series != "e6" && series != "e12" && series != "e24") {
+          result_resistance *= 10;
+        }
+        document.getElementById("disp").innerText = result_resistance + " x10^ " + result[1] + "\ndifference: " + String(result[2]).slice(0, 5) + " %";
+        var colorVal = calcColor(result[0], result[1]);
+        var resistorColor1 = document.getElementById("resistorColor1").children;
+        resistorColor1[0].dataset.color = resistorColorArr[colorVal[1][0]];
+        resistorColor1[1].dataset.color = resistorColorArr[colorVal[1][1]];
+        resistorColor1[2].dataset.color = resistorColorArr[colorVal[1][2]];
+        resistorColor1[3].dataset.color = resistorColorArr[colorVal[1][3]];
+        resistorColor1[4].dataset.color = document.getElementById("tolerance").value;
+        var resistorColor2 = document.getElementById("resistorColor2").children;
+        if(colorVal[0].length != 0) {
+          resistorColor2[0].dataset.color = resistorColorArr[colorVal[0][0]];
+          resistorColor2[1].dataset.color = resistorColorArr[colorVal[0][1]];
+          resistorColor2[2].dataset.color = resistorColorArr[colorVal[0][2]];
+          resistorColor2[3].dataset.color = document.getElementById("tolerance").value;
+        } else {
+          resistorColor2[0].dataset.color = "";
+          resistorColor2[1].dataset.color = "";
+          resistorColor2[2].dataset.color = "";
+          resistorColor2[3].dataset.color = "";
+        }
+        console.log(colorVal);
+      }
+      window.onload = function() {
+        changeEvent();
+      }
+    </script>
+    <style media="screen">
+      body{
+        text-align: center;
+      }
+      .inline{
+        display: inline-block;
+      }
+      #resistorColor1, #resistorColor2{
+        background-color: #ddd;
+        display: inline-block;
+        width: 200px;
+      }
+      .resistorColor span[data-color=black]{
+        background-color: #000;
+      }
+      .resistorColor span[data-color=brown]{
+        background-color: #600;
+      }
+      .resistorColor span[data-color=red]{
+        background-color: #f00;
+      }
+      .resistorColor span[data-color=orange]{
+        background-color: #fa0;
+      }
+      .resistorColor span[data-color=yellow]{
+        background-color: #ff0;
+      }
+      .resistorColor span[data-color=green]{
+        background-color: #060;
+      }
+      .resistorColor span[data-color=blue]{
+        background-color: #00f;
+      }
+      .resistorColor span[data-color=purple]{
+        background-color: #609;
+      }
+      .resistorColor span[data-color=gray]{
+        background-color: #666;
+      }
+      .resistorColor span[data-color=white]{
+        background-color: #fff;
+      }
+      .resistorColor span[data-color=gold]{
+        background-color: #c90;
+      }
+      .resistorColor span[data-color=silver]{
+        background-color: #bbb;
+      }
+      .resistorColor span[data-color=none]{
+        background-color: rgba(0, 0, 0, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Resistor calculator</h1>
+    <p>
+      <div class="inline">
+        <div>Resistance value</div>
+        <input type="number" id="resistance" value="1" min="0" onchange="changeEvent()" onkeydown="changeEvent()" onkeyup="changeEvent()">
+      </div>
+      <div class="inline">
+        <div>Unit</div>
+        <select id="exp" onchange="changeEvent()">
+          <option value="0">Ω</option>
+          <option value="3" selected>kΩ</option>
+          <option value="6">MΩ</option>
+        </select>
+      </div>
+      <div class="inline">
+        <div>Series</div>
+        <select id="series" onchange="changeEvent()">
+          <option value="e3">E3</option>
+          <option value="e6">E6</option>
+          <option value="e12" selected>E12</option>
+          <option value="e24">E24</option>
+          <option value="e48">E48</option>
+          <option value="e96">E96</option>
+          <option value="e192">E192</option>
+        </select>
+      </div>
+      <div class="inline">
+        <div>Tolerance</div>
+        <select id="tolerance" onchange="changeEvent()">
+          <option value="gray">0.01%</option>
+          <option value="yellow">0.02%</option>
+          <option value="orange">0.05%</option>
+          <option value="purple">0.1%</option>
+          <option value="blue">0.25%</option>
+          <option value="green">0.5%</option>
+          <option value="brown">1%</option>
+          <option value="gold" selected>5%</option>
+          <option value="silver">10%</option>
+          <option value="none">20%</option>
+        </select>
+      </div>
+      <p>
+        <span class="resistorColor" id="resistorColor1">
+          <span>　</span>
+          <span>　</span>
+          <span>　</span>
+          <span>　</span>
+          <span>　</span>
+        </span>
+      </p>
+      <p>
+        <span class="resistorColor" id="resistorColor2">
+          <span>　</span>
+          <span>　</span>
+          <span>　</span>
+          <span>　</span>
+        </span>
+      </p>
+      <p>
+        <span id="disp"></span>
+      </p>
+    </p>
+  </body>
+</html>
