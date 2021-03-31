@@ -116,7 +116,7 @@
         if(series != "e3" && series != "e6" && series != "e12" && series != "e24") {
           result_resistance *= 10;
         }
-        document.getElementById("disp").innerText = result_resistance + " x10^ " + result[1] + "\ndifference: " + String(result[2]).slice(0, 5) + " %";
+        document.getElementById("disp").innerText = result_resistance + " x10^ " + result[1] + "Ω\ndifference: " + String(result[2]).slice(0, 5) + " %";
         var colorVal = calcColor(result[0], result[1]);
         var resistorColor1 = document.getElementById("resistorColor1").children;
         resistorColor1[0].dataset.color = resistorColorArr[colorVal[1][0]];
